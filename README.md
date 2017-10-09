@@ -40,14 +40,14 @@ server {
 在浏览器输入http://192.168.1.105/lua，页面正常输出“hello lua world ”
 
 ## 支持JSON
->脚本地址 http://regex.info/blog/lua/json
+>脚本地址http://lua-users.org/wiki/JsonModules
 
-正常的获取string类型值没有问题，在我们获取json格式的key值就需要JSON的支持才能正常显示。下载脚本JSON.lua，将其放置在conf目录下面，以便在lua脚本中引用
+正常的获取string类型值没有问题，在我们获取json格式的key值就需要JSON的支持才能正常显示。下载脚本dkjson.lua，将其放置在/usr/local/openresty/lualib目录下面，以便在lua脚本中引用
 
 ## 获取redis数据
 编写连接redis的测试脚本，并从redis中获取指定key的值。脚本内容如下：
 >local redis = require("resty.redis")  
-JSON = (loadfile "JSON.lua")()  
+local json = require ("dkjson")  
 --创建实例  
 local redis_instance = redis:new()  
 --设置超时（毫秒）  
@@ -61,7 +61,9 @@ if not ok then
     return close_redis(redis_instance)  
 end  
 local resp, err = redis_instance:eval("return redis.call('get', KEYS[1])", 1, "alibaba");   
-ngx.say("redis data = ",resp);  
+ngx.say("redis data = ",resp); 
+ngx.say("json data = ",json.encode(resp))
+
 --正常情况理应有关闭redis，这里仅简单测试下，未做关闭
 
 配置lua.conf，内容如下
@@ -79,7 +81,7 @@ ngx.say("redis data = ",resp);
 		redis.set("alibaba", object.toString());
 
 测试配置无误后，重启nginx。浏览器输入http://192.168.1.105/lua_redis_test，应当输出redis中alibaba键的值。
->redis data = {"aaaa":123,"bbbbb":23234}
+>redis data = {"aaaa":123,"bbbbb":23234}json data = "{\"aaaa\":123,\"bbbbb\":23234}
 
 至此基于nginx，通过lua脚本即可简单从redis获取数据，大大提高的数据请求响应的效率。
 
