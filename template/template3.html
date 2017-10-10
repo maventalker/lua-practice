@@ -1,0 +1,26 @@
+ {(header.html)}  
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+ </head>
+ <body>
+   <div>你好{{who}}，this is template page 3</div>
+  <br/>
+   <div>欢迎关注公众号：{{from}}</div>
+    <br/>
+    下面是redis中获取的数据-
+    <br/>
+      {% for k, v in ipairs(jsons) do %}  
+         {* k *} = {* v *}  
+      {% end %}<br/>  
+      
+      {{resp}}
+ </body>
+</html>
+{(footer.html)}  
