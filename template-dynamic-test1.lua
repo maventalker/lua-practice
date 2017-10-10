@@ -1,3 +1,4 @@
+--测试template组件，填充一些变量数据
 local template = require("resty.template") 
 local redis = require("resty.redis")
 

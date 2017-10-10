@@ -1,3 +1,4 @@
+--测试连接mysql，获取数据
 local function close_db(db)
     if not db then
         return

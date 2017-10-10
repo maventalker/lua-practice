@@ -1,3 +1,4 @@
+--测试http客户端
 local http = require("resty.http")  
 
 local httpc = http.new()  

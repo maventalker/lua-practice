@@ -1,3 +1,4 @@
+--测试获取redis数据
 local function close_redis(red)  
     if not red then  
         return  
